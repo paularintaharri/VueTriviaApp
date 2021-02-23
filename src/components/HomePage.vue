@@ -1,8 +1,8 @@
 <template>
   <div class="home-page">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <h1>Welcome to The Vue Trivia App </h1>
-    <router-link to="/QuizContainer"><button class="startBtn"><b>Play!</b></button></router-link>
+    <h1>Welcome to The Vue Trivia App</h1>
+    <router-link to="/questions"><button class="playBtn"><b>Play!</b></button></router-link>
   </div>
 </template>
 
@@ -13,18 +13,11 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.playBtn {
+  background-color: rgba(53, 73, 94, 1);
+  color: rgba(255, 255, 255, 1);
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.playBtn:hover{
+  background-color: rgb(90, 121, 155);
 }
 </style>

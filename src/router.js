@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import HomePage from './components/HomePage.vue'
-import QuestionPage from './components/QuestionPage.vue'
-import ResultPage from './components/ResultPage.vue'
+const HomePage = () => import ('./components/HomePage.vue')
+const QuestionPage = () => import ('./components/QuestionPage.vue')
+const ResultPage = () => import ('./components/ResultPage.vue')
 
 Vue.use(VueRouter)
 
