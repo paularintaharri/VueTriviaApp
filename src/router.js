@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const HomePage = () => import ('./components/HomePage.vue')
-const QuestionPage = () => import ('./components/QuestionPage.vue')
+const QuestionPage = () => import ('./components/Questions/QuestionPage.vue')
 const ResultPage = () => import ('./components/ResultPage.vue')
 
 Vue.use(VueRouter)

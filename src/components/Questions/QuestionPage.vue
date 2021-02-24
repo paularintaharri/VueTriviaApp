@@ -2,27 +2,16 @@
   <div class="question-page">
     <h1>Questions</h1>
     <p>{{ index + 1 }}/{{ questions.length }}</p>
-    <div>
-      <h3>{{ getCurrentQuestion().question }}</h3>
-      <ul>
-        <li v-for="answer of getAnswerOptions()" :key="answer">
-          <button @click="selectAnswer(answer)">{{ answer }}</button>
-        </li>
-      </ul>
-    </div>
+    <question :question="currentQuestion" :selectAnswer="selectAnswer" />
     <div>
       <button
         id="previous-question"
-        v-show="indexBiggerThan(0)"
+        v-show="showPreviousButton"
         @click="previousQuestion"
       >
         Previous
       </button>
-      <button
-        id="next-question"
-        v-show="indexSmallerThan(questions.length - 1)"
-        @click="nextQuestion"
-      >
+      <button id="next-question" v-show="showNextButton" @click="nextQuestion">
         Next
       </button>
     </div>
@@ -35,8 +24,11 @@
 </template>
 
 <script>
+import Question from "./Question.vue";
+
 export default {
   name: "QuestionPage",
+  components: { Question },
   data() {
     return {
       index: 0,
@@ -142,44 +134,36 @@ export default {
       answers: [],
     };
   },
-  methods: {
-    getCurrentQuestion() {
+  computed: {
+    currentQuestion: function () {
       return this.questions[this.index];
     },
-    getAnswerOptions() {
-      const question = this.getCurrentQuestion();
-      return this.shuffle([
-        ...question.incorrect_answers,
-        question.correct_answer,
-      ]);
+    showNextButton: function () {
+      return this.index < this.questions.length - 1;
     },
-    shuffle(array) {
-      return array;
+    showPreviousButton: function () {
+      return this.index > 0;
     },
+  },
+  methods: {
     selectAnswer(answer) {
-      const { question, correct_answer } = this.getCurrentQuestion();
+      const { question, correct_answer } = this.currentQuestion;
       const newAnswerObj = {
         question,
         correct_answer,
         user_answer: answer,
       };
       const alreadyAnswered = this.answers.find(
-        (answer) => answer.question === question
+        (answerObj) => answerObj.question === question
       );
       if (alreadyAnswered) {
-        this.answers = this.answers.map((answer) =>
-          answer.question === question ? newAnswerObj : answer
+        this.answers = this.answers.map((answerObj) =>
+          answerObj.question === question ? newAnswerObj : answerObj
         );
       } else {
         this.answers.push(newAnswerObj);
       }
-      console.log(this.answers.length, this.answers);
-    },
-    indexBiggerThan(number) {
-      return this.index > number;
-    },
-    indexSmallerThan(number) {
-      return this.index < number;
+      console.log(this.answers.length, 'user is correct', answer === correct_answer ,'selected answers',this.answers);
     },
     previousQuestion() {
       this.index -= 1;
