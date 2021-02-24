@@ -1,7 +1,7 @@
 <template>
   <div class="question-page">
     <h1>Questions</h1>
-    <p>{{ index + 1 }}/{{ questions.length }}</p>
+    <p>{{ questionIndexing }}</p>
     <question :question="currentQuestion" :selectAnswer="selectAnswer" />
     <div>
       <button
@@ -15,7 +15,7 @@
         Next
       </button>
     </div>
-    <div id="finish-container">
+    <div>
       <router-link to="/results">
         <button><b>Finish</b></button>
       </router-link>
@@ -143,6 +143,9 @@ export default {
     },
     showPreviousButton: function () {
       return this.index > 0;
+    },
+    questionIndexing: function () {
+      return +(this.index + 1) + "/" + this.questions.length;
     },
   },
   methods: {
