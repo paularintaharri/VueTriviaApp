@@ -1,9 +1,9 @@
 <template>
   <div class="question-page">
     <h1>Questions</h1>
-    <p>{{ index + 1 }}/{{ questions.length }}</p>
+    <p>{{ questionIndexing }}</p>
     <question :question="currentQuestion" :selectAnswer="selectAnswer" />
-    <div>
+    <div id="button-container">
       <button
         id="previous-question"
         v-show="showPreviousButton"
@@ -144,6 +144,9 @@ export default {
     showPreviousButton: function () {
       return this.index > 0;
     },
+    questionIndexing: function () {
+      return +(this.index + 1) + "/" + this.questions.length;
+    },
   },
   methods: {
     selectAnswer(answer) {
@@ -153,17 +156,20 @@ export default {
         correct_answer,
         user_answer: answer,
       };
-      const alreadyAnswered = this.answers.find(
+      const answerIndex = this.answers.findIndex(
         (answerObj) => answerObj.question === question
       );
-      if (alreadyAnswered) {
-        this.answers = this.answers.map((answerObj) =>
-          answerObj.question === question ? newAnswerObj : answerObj
-        );
-      } else {
-        this.answers.push(newAnswerObj);
-      }
-      console.log(this.answers.length, 'user is correct', answer === correct_answer ,'selected answers',this.answers);
+      answerIndex === -1
+        ? this.answers.push(newAnswerObj)
+        : this.answers.splice(answerIndex, 1, newAnswerObj);
+      console.log(
+        this.answers.length,
+        "user is correct",
+        answer === correct_answer,
+        "selected answers",
+        this.answers
+      );
+      this.nextQuestion();
     },
     previousQuestion() {
       this.index -= 1;
@@ -182,21 +188,29 @@ export default {
 </script>
 
 <style scoped>
+#question-page {
+  padding: 1cm;
+  margin: 5mm;
+}
 h3 {
   margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
 }
 button {
   margin: 5px;
 }
+#button-container {
+  margin: 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#previous-question {
+  margin: 0px 10px;
+}
+#next-question {
+  margin: 0px 10px;
+}
 #finish-container {
-  padding: 5mm;
+  margin: 5mm;
 }
 </style>
