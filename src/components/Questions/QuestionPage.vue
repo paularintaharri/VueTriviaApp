@@ -3,7 +3,7 @@
     <h1>Questions</h1>
     <p>{{ questionIndexing }}</p>
     <question :question="currentQuestion" :selectAnswer="selectAnswer" />
-    <div>
+    <div id="button-container">
       <button
         id="previous-question"
         v-show="showPreviousButton"
@@ -15,7 +15,7 @@
         Next
       </button>
     </div>
-    <div>
+    <div id="finish-container">
       <router-link to="/results">
         <button><b>Finish</b></button>
       </router-link>
@@ -188,21 +188,29 @@ export default {
 </script>
 
 <style scoped>
+#question-page {
+  padding: 1cm;
+  margin: 5mm;
+}
 h3 {
   margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
 }
 button {
   margin: 5px;
 }
+#button-container {
+  margin: 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#previous-question {
+  margin: 0px 10px;
+}
+#next-question {
+  margin: 0px 10px;
+}
 #finish-container {
-  padding: 5mm;
+  margin: 5mm;
 }
 </style>

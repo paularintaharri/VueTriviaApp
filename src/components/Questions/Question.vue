@@ -37,17 +37,3 @@ export default {
   }
 };
 </script>
-
-<style>
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-button {
-  margin: 5px;
-}
-</style>
