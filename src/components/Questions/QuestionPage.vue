@@ -4,16 +4,10 @@
     <p>{{ questionIndexing }}</p>
     <question :question="currentQuestion" :selectAnswer="selectAnswer" />
     <div id="button-container">
-      <button
-        id="previous-question"
-        v-show="showPreviousButton"
-        @click="previousQuestion"
-      >
+      <button v-show="showPreviousButton" @click="previousQuestion">
         Previous
       </button>
-      <button id="next-question" v-show="showNextButton" @click="nextQuestion">
-        Next
-      </button>
+      <button v-show="showNextButton" @click="nextQuestion">Next</button>
     </div>
     <div id="finish-container">
       <router-link to="/results">
@@ -186,19 +180,13 @@ h3 {
   margin: 40px 0 0;
 }
 button {
-  margin: 5px;
+  margin: 0px 10px;
 }
 #button-container {
   margin: 0 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-#previous-question {
-  margin: 0px 10px;
-}
-#next-question {
-  margin: 0px 10px;
 }
 #finish-container {
   margin: 5mm;
