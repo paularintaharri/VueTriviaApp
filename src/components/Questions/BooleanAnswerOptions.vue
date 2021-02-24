@@ -10,6 +10,6 @@ export default {
   name: 'BooleanAnswerOptions',
   props: {
     selectAnswer: Function,
-  },
+  }
 };
 </script>

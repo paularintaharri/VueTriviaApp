@@ -153,17 +153,20 @@ export default {
         correct_answer,
         user_answer: answer,
       };
-      const alreadyAnswered = this.answers.find(
+      const answerIndex = this.answers.findIndex(
         (answerObj) => answerObj.question === question
       );
-      if (alreadyAnswered) {
-        this.answers = this.answers.map((answerObj) =>
-          answerObj.question === question ? newAnswerObj : answerObj
-        );
-      } else {
-        this.answers.push(newAnswerObj);
-      }
-      console.log(this.answers.length, 'user is correct', answer === correct_answer ,'selected answers',this.answers);
+      answerIndex === -1
+        ? this.answers.push(newAnswerObj)
+        : this.answers.splice(answerIndex, 1, newAnswerObj);
+      console.log(
+        this.answers.length,
+        "user is correct",
+        answer === correct_answer,
+        "selected answers",
+        this.answers
+      );
+      this.nextQuestion();
     },
     previousQuestion() {
       this.index -= 1;

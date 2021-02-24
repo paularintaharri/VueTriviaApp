@@ -34,8 +34,7 @@ export default {
       const { incorrect_answers, correct_answer } = this.question;
       return shuffle([...incorrect_answers, correct_answer]);
     },
-  },
-  methods: {},
+  }
 };
 </script>
 
