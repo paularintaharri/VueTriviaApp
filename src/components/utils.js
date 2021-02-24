@@ -1,6 +1,13 @@
+const isArray = array => {
+  if (!array || !Array.isArray(array)) {
+    return false;
+  }
+  return true;
+};
+
 export const shuffle = (array) => {
-  if (!Array.isArray(array)) {
-    console.log('Can\'t shuffle, not an array!');
+  if (isArray(array)) {
+    console.log("Can't shuffle, not an array!");
     return array;
   }
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -14,14 +21,7 @@ export const shuffle = (array) => {
     array[randomIndex] = temporaryValue;
   }
   return array;
-}
-
-const isArray = array => {
-  if (!array || !Array.isArray(array)) {
-    return false;
-  }
-  return true;
-}
+};
 
 export const addOrReplaceAnswerInArray = (array, answerObj) => {
   if (!isArray(array) || !answerObj || !answerObj.question) {
@@ -32,4 +32,4 @@ export const addOrReplaceAnswerInArray = (array, answerObj) => {
     ? array.push(answerObj)
     : array.splice(answerIndex, 1, answerObj);
   return true;
-}
+};
