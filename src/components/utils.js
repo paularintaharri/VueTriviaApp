@@ -15,3 +15,21 @@ export const shuffle = (array) => {
   }
   return array;
 }
+
+const isArray = array => {
+  if (!array || !Array.isArray(array)) {
+    return false;
+  }
+  return true;
+}
+
+export const addOrReplaceAnswerInArray = (array, answerObj) => {
+  if (!isArray(array) || !answerObj || !answerObj.question) {
+    return false;
+  }
+  const answerIndex = array.findIndex(({ question }) => question === answerObj.question);
+  answerIndex === -1
+    ? array.push(answerObj)
+    : array.splice(answerIndex, 1, answerObj);
+  return true;
+}

@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { addOrReplaceAnswerInArray } from "../utils";
 import Question from "./Question.vue";
 
 export default {
@@ -156,20 +157,9 @@ export default {
         correct_answer,
         user_answer: answer,
       };
-      const answerIndex = this.answers.findIndex(
-        (answerObj) => answerObj.question === question
-      );
-      answerIndex === -1
-        ? this.answers.push(newAnswerObj)
-        : this.answers.splice(answerIndex, 1, newAnswerObj);
-      console.log(
-        this.answers.length,
-        "user is correct",
-        answer === correct_answer,
-        "selected answers",
-        this.answers
-      );
+      addOrReplaceAnswerInArray(this.answers, newAnswerObj);
       this.nextQuestion();
+      console.log("length", this.answers.length, { answers: this.answers });
     },
     previousQuestion() {
       this.index -= 1;
