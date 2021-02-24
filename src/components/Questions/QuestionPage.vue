@@ -138,13 +138,6 @@ export default {
     currentQuestion: function () {
       return this.questions[this.index];
     },
-    answerOptions: function () {
-      const question = this.currentQuestion;
-      return this.shuffle([
-        ...question.incorrect_answers,
-        question.correct_answer,
-      ]);
-    },
     showNextButton: function () {
       return this.index < this.questions.length - 1;
     },
@@ -153,9 +146,6 @@ export default {
     },
   },
   methods: {
-    shuffle(array) {
-      return array;
-    },
     selectAnswer(answer) {
       const { question, correct_answer } = this.currentQuestion;
       const newAnswerObj = {
@@ -164,16 +154,16 @@ export default {
         user_answer: answer,
       };
       const alreadyAnswered = this.answers.find(
-        (answer) => answer.question === question
+        (answerObj) => answerObj.question === question
       );
       if (alreadyAnswered) {
-        this.answers = this.answers.map((answer) =>
-          answer.question === question ? newAnswerObj : answer
+        this.answers = this.answers.map((answerObj) =>
+          answerObj.question === question ? newAnswerObj : answerObj
         );
       } else {
         this.answers.push(newAnswerObj);
       }
-      console.log(this.answers.length, 'selected answers',this.answers);
+      console.log(this.answers.length, 'user is correct', answer === correct_answer ,'selected answers',this.answers);
     },
     previousQuestion() {
       this.index -= 1;
