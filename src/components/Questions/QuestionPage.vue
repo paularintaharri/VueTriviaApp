@@ -2,14 +2,7 @@
   <div class="question-page">
     <h1>Questions</h1>
     <p>{{ index + 1 }}/{{ questions.length }}</p>
-    <div>
-      <h3>{{ currentQuestion.question }}</h3>
-      <ul>
-        <li v-for="answer of answerOptions" :key="answer">
-          <button @click="selectAnswer(answer)">{{ answer }}</button>
-        </li>
-      </ul>
-    </div>
+    <question :question="currentQuestion" :selectAnswer="selectAnswer" />
     <div>
       <button
         id="previous-question"
@@ -31,8 +24,11 @@
 </template>
 
 <script>
+import Question from "./Question.vue";
+
 export default {
   name: "QuestionPage",
+  components: { Question },
   data() {
     return {
       index: 0,
@@ -177,7 +173,7 @@ export default {
       } else {
         this.answers.push(newAnswerObj);
       }
-      console.log(this.answers.length, this.answers);
+      console.log(this.answers.length, 'selected answers',this.answers);
     },
     previousQuestion() {
       this.index -= 1;
