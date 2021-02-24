@@ -3,9 +3,9 @@
     <h1>Questions</h1>
     <p>{{ index + 1 }}/{{ questions.length }}</p>
     <div>
-      <h3>{{ getCurrentQuestion().question }}</h3>
+      <h3>{{ currentQuestion.question }}</h3>
       <ul>
-        <li v-for="answer of getAnswerOptions()" :key="answer">
+        <li v-for="answer of answerOptions" :key="answer">
           <button @click="selectAnswer(answer)">{{ answer }}</button>
         </li>
       </ul>
@@ -13,16 +13,12 @@
     <div>
       <button
         id="previous-question"
-        v-show="indexBiggerThan(0)"
+        v-show="showPreviousButton"
         @click="previousQuestion"
       >
         Previous
       </button>
-      <button
-        id="next-question"
-        v-show="indexSmallerThan(questions.length - 1)"
-        @click="nextQuestion"
-      >
+      <button id="next-question" v-show="showNextButton" @click="nextQuestion">
         Next
       </button>
     </div>
@@ -142,22 +138,30 @@ export default {
       answers: [],
     };
   },
-  methods: {
-    getCurrentQuestion() {
+  computed: {
+    currentQuestion: function () {
       return this.questions[this.index];
     },
-    getAnswerOptions() {
-      const question = this.getCurrentQuestion();
+    answerOptions: function () {
+      const question = this.currentQuestion;
       return this.shuffle([
         ...question.incorrect_answers,
         question.correct_answer,
       ]);
     },
+    showNextButton: function () {
+      return this.index < this.questions.length - 1;
+    },
+    showPreviousButton: function () {
+      return this.index > 0;
+    },
+  },
+  methods: {
     shuffle(array) {
       return array;
     },
     selectAnswer(answer) {
-      const { question, correct_answer } = this.getCurrentQuestion();
+      const { question, correct_answer } = this.currentQuestion;
       const newAnswerObj = {
         question,
         correct_answer,
@@ -174,12 +178,6 @@ export default {
         this.answers.push(newAnswerObj);
       }
       console.log(this.answers.length, this.answers);
-    },
-    indexBiggerThan(number) {
-      return this.index > number;
-    },
-    indexSmallerThan(number) {
-      return this.index < number;
     },
     previousQuestion() {
       this.index -= 1;
