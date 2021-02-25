@@ -17,7 +17,7 @@
     </div>
     <div id="finish-container">
       <router-link to="/results">
-        <button><b>Finish</b></button>
+        <button id="finish-trivia" v-on:click="finishTrivia"><b>Finish</b></button>
       </router-link>
     </div>
   </div>
@@ -183,6 +183,14 @@ export default {
         this.index = this.questions.length - 1;
       }
     },
+    finishTrivia(){
+      this.$router.push({
+          name: "ResultPage",
+          params: {
+            answers: this.answers,
+          },
+        });
+    }
   },
 };
 </script>
