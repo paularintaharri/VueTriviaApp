@@ -6,7 +6,7 @@ const isArray = array => {
 };
 
 export const shuffle = (array) => {
-  if (isArray(array)) {
+  if (!isArray(array)) {
     console.log("Can't shuffle, not an array!");
     return array;
   }
