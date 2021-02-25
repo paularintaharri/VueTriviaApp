@@ -14,10 +14,13 @@ export default {
 
 <style scoped>
 .playBtn {
-  background-color: rgba(53, 73, 94, 1);
-  color: rgba(255, 255, 255, 1);
+  background-color: #35495e;
+  color: #ffffff;
+  margin: 1em ;
+  padding: .5em;
+  font-size: medium;
 }
 .playBtn:hover{
-  background-color: rgb(90, 121, 155);
+  background-color: #5a799b;
 }
 </style>
