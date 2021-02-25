@@ -1,7 +1,7 @@
 <template>
   <div class="result-container">
     <h1>Game finished</h1>
-    <h2 class="total-score">Your score: XX / 100.</h2>
+    <h2 class="total-score">Your score: {{ totalScore }} / 100.</h2>
     <h4>The right answers</h4>
     <table>
       <tr>
@@ -15,7 +15,6 @@
         <td>{{ result.user_answer }}</td>
       </tr>
     </table>
-
     <router-link to="/"><button class="start-over-btn"><b>Play again!</b></button></router-link>
   </div>
 </template>
@@ -23,18 +22,15 @@
 <script>
 export default {
     name: "ResultPage",
-
     props: {
       answers: Array,
-      
+      totalScore: Number,
     },
     data() {
       return {
       };
     },
-    
 };
-
 </script>
 
 <style>
