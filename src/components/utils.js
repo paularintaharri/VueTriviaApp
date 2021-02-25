@@ -37,3 +37,16 @@ export const addOrReplaceAnswerInArray = (array, answerObj) => {
     : array.splice(answerIndex, 1, answerObj);
   return true;
 };
+
+const parseArray = array => array.map(item => parseString(item));
+
+const parseString = (string) => string; // replace &#039; &ldquo; &quot;
+
+export const parseApiQuestionObj = (questionObj) => ({
+  category: parseString(questionObj.category),
+  correct_answer: parseString(questionObj.correct_answer),
+  difficulty: parseString(questionObj.difficulty),
+  incorrect_answers: parseArray(questionObj.incorrect_answers),
+  question: parseString(questionObj.question),
+  type: parseString(questionObj.type),
+});
