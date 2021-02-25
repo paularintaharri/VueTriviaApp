@@ -4,16 +4,10 @@
     <p>{{ questionIndexing }}</p>
     <question :question="currentQuestion" :selectAnswer="selectAnswer" />
     <div id="button-container">
-      <button
-        id="previous-question"
-        v-show="showPreviousButton"
-        @click="previousQuestion"
-      >
+      <button v-show="showPreviousButton" @click="previousQuestion">
         Previous
       </button>
-      <button id="next-question" v-show="showNextButton" @click="nextQuestion">
-        Next
-      </button>
+      <button v-show="showNextButton" @click="nextQuestion">Next</button>
     </div>
     <div id="finish-container">
       <router-link to="/results">
@@ -24,6 +18,7 @@
 </template>
 
 <script>
+import { addOrReplaceAnswerInArray } from "../utils";
 import Question from "./Question.vue";
 
 export default {
@@ -156,20 +151,9 @@ export default {
         correct_answer,
         user_answer: answer,
       };
-      const answerIndex = this.answers.findIndex(
-        (answerObj) => answerObj.question === question
-      );
-      answerIndex === -1
-        ? this.answers.push(newAnswerObj)
-        : this.answers.splice(answerIndex, 1, newAnswerObj);
-      console.log(
-        this.answers.length,
-        "user is correct",
-        answer === correct_answer,
-        "selected answers",
-        this.answers
-      );
+      addOrReplaceAnswerInArray(this.answers, newAnswerObj);
       this.nextQuestion();
+      console.log("length", this.answers.length, { answers: this.answers });
     },
     previousQuestion() {
       this.index -= 1;
@@ -204,19 +188,13 @@ h3 {
   margin: 40px 0 0;
 }
 button {
-  margin: 5px;
+  margin: 0px 10px;
 }
 #button-container {
   margin: 0 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-#previous-question {
-  margin: 0px 10px;
-}
-#next-question {
-  margin: 0px 10px;
 }
 #finish-container {
   margin: 5mm;
