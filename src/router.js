@@ -12,6 +12,6 @@ export default new VueRouter({
     routes : [
     { path: "/", name: "HomePage", component: HomePage},
     { path: "/questions", name: "QuestionPage", component: QuestionPage },
-    { path: "/results", name: "ResultPage", component: ResultPage },
+    { path: "/results", name: "ResultPage", component: ResultPage, props: true, },
     ]
 })
