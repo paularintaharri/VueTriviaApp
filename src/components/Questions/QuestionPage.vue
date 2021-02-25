@@ -1,7 +1,7 @@
 <template>
   <div class="question-page">
     <h1>Questions</h1>
-    <template v-if="questions.length > 0">
+    <template v-if="thereAreQuestions">
       <p>{{ questionIndexing }}</p>
       <question :question="currentQuestion" :selectAnswer="selectAnswer" />
       <div id="button-container">
@@ -15,6 +15,12 @@
           <b>Finish</b>
         </button>
       </div>
+    </template>
+    <template v-else-if="failedToLoad">
+      <p>Error getting questions from server</p>
+      <router-link to="/">
+        <button class="home"><b>Home!</b></button>
+      </router-link>
     </template>
     <template v-else>
       <p>loading...</p>
@@ -30,12 +36,15 @@ export default {
   name: "QuestionPage",
   components: { Question },
   async created() {
+    this.failedToLoad = false;
     const questions = await this.getQuestionsFromAPI(10);
-    this.questions = questions;
-    this.answers = questions.map(({ question, correct_answer }) => ({
-      question,
-      correct_answer,
-    }));
+    if (questions) {
+      this.questions = questions;
+      this.answers = questions.map(({ question, correct_answer }) => ({
+        question,
+        correct_answer,
+      }));
+    }
   },
   data() {
     return {
@@ -43,9 +52,13 @@ export default {
       questions: [],
       answers: [],
       totalScore: 0,
+      failedToLoad: false,
     };
   },
   computed: {
+    thereAreQuestions: function () {
+      return this.questions && this.questions.length > 0;
+    },
     currentQuestion: function () {
       return this.questions[this.index];
     },
@@ -73,7 +86,12 @@ export default {
         .then(({ results }) =>
           results.map((questionObject) => parseApiQuestionObj(questionObject))
         )
-        .catch((error) => console.error(error.message));
+        .catch((error) => {
+          this.failedToLoad = true;
+          if (error instanceof Error) {
+            console.error(error.message);
+          }
+        });
     },
     selectAnswer(answer) {
       const { question, correct_answer } = this.currentQuestion;
