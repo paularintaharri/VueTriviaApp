@@ -60,8 +60,15 @@ export default {
     },
   },
   methods: {
-    getQuestionsFromAPI(amount = 10) {
-      return fetch(`https://opentdb.com/api.php?amount=${amount}`)
+    getQuestionsFromAPI(
+      amount = 10,
+      category = "",
+      difficulty = "",
+      type = ""
+    ) {
+      return fetch(
+        `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=${type}`
+      )
         .then((response) => response.json())
         .then(({ results }) =>
           results.map((questionObject) => parseApiQuestionObj(questionObject))
