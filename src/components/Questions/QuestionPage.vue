@@ -23,15 +23,19 @@
 </template>
 
 <script>
-import { addOrReplaceAnswerInArray } from "../utils";
+import { addOrReplaceAnswerInArray, parseApiQuestionObj } from "../utils";
 import Question from "./Question.vue";
 
 export default {
   name: "QuestionPage",
   components: { Question },
   async created() {
-    const questions = await this.getQuestionsFromAPI();
+    const questions = await this.getQuestionsFromAPI(10);
     this.questions = questions;
+    this.answers = questions.map(({ question, correct_answer }) => ({
+      question,
+      correct_answer,
+    }));
   },
   data() {
     return {
@@ -56,6 +60,14 @@ export default {
     },
   },
   methods: {
+    getQuestionsFromAPI(amount = 10) {
+      return fetch(`https://opentdb.com/api.php?amount=${amount}`)
+        .then((response) => response.json())
+        .then(({ results }) =>
+          results.map((questionObject) => parseApiQuestionObj(questionObject))
+        )
+        .catch((error) => console.error(error.message));
+    },
     selectAnswer(answer) {
       const { question, correct_answer } = this.currentQuestion;
       const newAnswerObj = {
@@ -65,7 +77,6 @@ export default {
       };
       addOrReplaceAnswerInArray(this.answers, newAnswerObj);
       this.nextQuestion();
-      console.log("length", this.answers.length, { answers: this.answers });
       if (correct_answer === answer) {
         this.totalScore += 10;
       }
@@ -90,36 +101,6 @@ export default {
           totalScore: this.totalScore,
         },
       });
-    },
-    getQuestionsFromAPI() {
-      return fetch("https://opentdb.com/api.php?amount=10")
-        .then((response) => response.json())
-        .then(({ results }) => {
-          return results.map((questionObject) => {
-            const {
-              category,
-              correct_answer,
-              difficulty,
-              incorrect_answers,
-              question,
-              type,
-            } = questionObject;
-            return {
-              category: this.parseString(category),
-              correct_answer: this.parseString(correct_answer),
-              difficulty: this.parseString(difficulty),
-              incorrect_answers: incorrect_answers.map((answer) =>
-                this.parseString(answer)
-              ),
-              question: this.parseString(question),
-              type: this.parseString(type),
-            };
-          });
-        })
-        .catch((error) => console.error(error.message));
-    },
-    parseString(string) {
-      return string.replaceAll(/(&quot;)|(&#039;)/g, "'");
     },
   },
 };
