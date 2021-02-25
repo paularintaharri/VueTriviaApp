@@ -127,6 +127,7 @@ export default {
         },
       ],
       answers: [],
+      totalScore: 0,
     };
   },
   computed: {
@@ -154,6 +155,9 @@ export default {
       addOrReplaceAnswerInArray(this.answers, newAnswerObj);
       this.nextQuestion();
       console.log("length", this.answers.length, { answers: this.answers });
+      if (correct_answer === answer) {
+        this.totalScore += 10;
+      }
     },
     previousQuestion() {
       this.index -= 1;
@@ -172,6 +176,7 @@ export default {
           name: "ResultPage",
           params: {
             answers: this.answers,
+            totalScore: this.totalScore,
           },
         });
     }
