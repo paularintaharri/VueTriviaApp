@@ -101,6 +101,9 @@ export default {
         user_answer: answer,
       };
       addOrReplaceAnswerInArray(this.answers, newAnswerObj);
+      if (this.index === this.questions.length -1){
+        this.finishTrivia();
+      }
       this.nextQuestion();
       if (correct_answer === answer) {
         this.totalScore += 10;
