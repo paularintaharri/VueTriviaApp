@@ -95,8 +95,12 @@ export default {
     selectAnswer(answerObj) {
       addOrReplaceAnswerInArray(this.answers, answerObj);
       this.navigateQuestions(1);
-      if (answerObj.correct_answer === answerObj.answer) {
+      console.log({ answerObj });
+      if (answerObj.correct_answer === answerObj.user_answer) {
         this.totalScore += 10;
+      }
+      if (this.index === this.questions.length - 1) {
+        this.finishTrivia();
       }
     },
     navigateQuestions(value) {
