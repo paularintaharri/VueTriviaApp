@@ -1,3 +1,5 @@
+import he from "he";
+
 const isArray = array => {
   if (!array || !Array.isArray(array)) {
     return false;
@@ -38,15 +40,13 @@ export const addOrReplaceAnswerInArray = (array, answerObj) => {
   return true;
 };
 
-const parseArray = array => array.map(item => parseString(item));
-
-const parseString = (string) => string; // replace &#039; &ldquo; &quot;
+const parseArray = array => array.map(item => he.decode(item));
 
 export const parseApiQuestionObj = (questionObj) => ({
-  category: parseString(questionObj.category),
-  correct_answer: parseString(questionObj.correct_answer),
-  difficulty: parseString(questionObj.difficulty),
+  category: he.decode(questionObj.category),
+  correct_answer: he.decode(questionObj.correct_answer),
+  difficulty: he.decode(questionObj.difficulty),
   incorrect_answers: parseArray(questionObj.incorrect_answers),
-  question: parseString(questionObj.question),
-  type: parseString(questionObj.type),
+  question: he.decode(questionObj.question),
+  type: he.decode(questionObj.type),
 });
