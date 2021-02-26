@@ -26,14 +26,8 @@ export default {
       answers: Array,
       totalScore: Number,
     },
-    data() {
-      return {
-      };
-    },
     methods: {
         correctAnswer: function(result) {
-          console.log(result.correct_answer);
-          console.log(result.user_answer);
           if (result.correct_answer === result.user_answer){
             return "correct";
           } else {
