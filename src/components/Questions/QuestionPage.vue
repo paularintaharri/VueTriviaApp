@@ -94,7 +94,6 @@ export default {
     selectAnswer(answerObj) {
       addOrReplaceAnswerInArray(this.answers, answerObj);
       this.navigateQuestions(1);
-      console.log({ answerObj });
       if (answerObj.correct_answer === answerObj.user_answer) {
         this.totalScore += 10;
       }
