@@ -36,10 +36,13 @@ import Question from "./Question.vue";
 
 export default {
   name: "QuestionPage",
+  props: {
+    APIProps: Object,
+  },
   components: { Question, NavigationButtons },
   async created() {
     this.failedToLoad = false;
-    const questions = await this.getQuestionsFromAPI(10);
+    const questions = await this.getQuestionsFromAPI(this.APIProps);
     if (questions) {
       this.questions = questions;
       this.answers = questions.map(({ question, correct_answer }) => ({
@@ -72,12 +75,8 @@ export default {
     },
   },
   methods: {
-    getQuestionsFromAPI(
-      amount = 10,
-      category = "",
-      difficulty = "",
-      type = ""
-    ) {
+    getQuestionsFromAPI(props = {}) {
+      const { amount = 10, category = "", difficulty = "", type = "" } = props;
       return fetch(
         `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=${type}`
       )
