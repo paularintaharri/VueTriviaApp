@@ -3,7 +3,7 @@
     <h1>Questions</h1>
     <template v-if="thereAreQuestions">
       <p>{{ questionIndexing }}</p>
-      <question :question="currentQuestion" :selectAnswer="selectAnswer" />
+      <question :question="currentQuestion" @selectAnswer="selectAnswer" />
       <navigation-buttons
         :questionIndex="index"
         :questionsLength="totalQuestions"
@@ -90,17 +90,20 @@ export default {
           }
         });
     },
-    selectAnswer(answer) {
-      const { question, correct_answer } = this.currentQuestion;
-      const newAnswerObj = {
-        question,
-        correct_answer,
-        user_answer: answer,
-      };
-      addOrReplaceAnswerInArray(this.answers, newAnswerObj);
-      this.nextQuestion();
-      if (correct_answer === answer) {
+    selectAnswer(answerObj) {
+      addOrReplaceAnswerInArray(this.answers, answerObj);
+      this.navigateQuestions(1);
+      if (answerObj.correct_answer === answerObj.answer) {
         this.totalScore += 10;
+      }
+    },
+    navigateQuestions(value) {
+      this.index += value;
+      if (this.index < 0) {
+        this.index = 0;
+      }
+      if (this.index >= this.totalQuestions) {
+        this.index = this.totalQuestions - 1;
       }
     },
     finishTrivia() {
@@ -111,15 +114,6 @@ export default {
           totalScore: this.totalScore,
         },
       });
-    },
-    navigateQuestions(value) {
-      this.index += value;
-      if (this.index < 0) {
-        this.index = 0;
-      }
-      if (this.index >= this.totalQuestions) {
-        this.index = this.totalQuestions - 1;
-      }
     },
   },
 };
