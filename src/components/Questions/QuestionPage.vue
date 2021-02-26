@@ -1,28 +1,30 @@
 <template>
   <div class="question-page">
     <h1>Questions</h1>
-    <template v-if="thereAreQuestions">
-      <p>{{ questionIndexing }}</p>
-      <question :question="currentQuestion" @selectAnswer="selectAnswer" />
-      <navigation-buttons
-        :questionIndex="index"
-        :questionsLength="totalQuestions"
-        @navigateQuestions="navigateQuestions"
-      />
-      <div id="finish-container">
-        <button id="finish-trivia" v-on:click="finishTrivia">
-          <b>Finish</b>
-        </button>
-      </div>
-    </template>
-    <template v-else-if="failedToLoad">
+    <template v-if="failedToLoad">
       <p>Error getting questions from server</p>
       <router-link to="/">
         <button class="home"><b>Home!</b></button>
       </router-link>
     </template>
     <template v-else>
-      <p>loading...</p>
+      <template v-if="thereAreQuestions">
+        <p>{{ questionIndexing }}</p>
+        <question :question="currentQuestion" @selectAnswer="selectAnswer" />
+        <navigation-buttons
+          :questionIndex="index"
+          :questionsLength="totalQuestions"
+          @navigateQuestions="navigateQuestions"
+        />
+      </template>
+      <template v-else>
+        <p>loading...</p>
+      </template>
+      <div id="finish-container">
+        <button id="finish-trivia" v-on:click="finishTrivia">
+          <b>Finish</b>
+        </button>
+      </div>
     </template>
   </div>
 </template>
