@@ -11,7 +11,11 @@ export default {
   name: "MultipleAnswerOptions",
   props: {
     answerOptions: Array,
-    selectAnswer: Function,
+  },
+  methods: {
+    selectAnswer(answer) {
+      this.$emit("selectAnswer", answer);
+    },
   },
 };
 </script>

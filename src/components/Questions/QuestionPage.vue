@@ -1,40 +1,42 @@
 <template>
   <div class="question-page">
     <h1>Questions</h1>
-    <template v-if="thereAreQuestions">
-      <p>{{ questionIndexing }}</p>
-      <question :question="currentQuestion" :selectAnswer="selectAnswer" />
-      <div id="button-container">
-        <button v-show="showPreviousButton" @click="previousQuestion">
-          Previous
-        </button>
-        <button v-show="showNextButton" @click="nextQuestion">Next</button>
-      </div>
-      <div id="finish-container">
-        <button id="finish-trivia" v-on:click="finishTrivia">
-          <b>Finish</b>
-        </button>
-      </div>
-    </template>
-    <template v-else-if="failedToLoad">
+    <template v-if="failedToLoad">
       <p>Error getting questions from server</p>
       <router-link to="/">
         <button class="home"><b>Home!</b></button>
       </router-link>
     </template>
     <template v-else>
-      <p>loading...</p>
+      <template v-if="thereAreQuestions">
+        <p>{{ questionIndexing }}</p>
+        <question :question="currentQuestion" @selectAnswer="selectAnswer" />
+        <navigation-buttons
+          :questionIndex="index"
+          :questionsLength="totalQuestions"
+          @navigateQuestions="navigateQuestions"
+        />
+      </template>
+      <template v-else>
+        <p>loading...</p>
+      </template>
+      <div id="finish-container">
+        <button id="finish-trivia" v-on:click="finishTrivia">
+          <b>Finish</b>
+        </button>
+      </div>
     </template>
   </div>
 </template>
 
 <script>
 import { addOrReplaceAnswerInArray, parseApiQuestionObj } from "../utils";
+import NavigationButtons from "./NavigationButtons.vue";
 import Question from "./Question.vue";
 
 export default {
   name: "QuestionPage",
-  components: { Question },
+  components: { Question, NavigationButtons },
   async created() {
     this.failedToLoad = false;
     const questions = await this.getQuestionsFromAPI(10);
@@ -62,14 +64,11 @@ export default {
     currentQuestion: function () {
       return this.questions[this.index];
     },
-    showNextButton: function () {
-      return this.index < this.questions.length - 1;
-    },
-    showPreviousButton: function () {
-      return this.index > 0;
+    totalQuestions: function () {
+      return this.questions.length;
     },
     questionIndexing: function () {
-      return +(this.index + 1) + "/" + this.questions.length;
+      return +(this.index + 1) + "/" + this.totalQuestions;
     },
   },
   methods: {
@@ -93,32 +92,24 @@ export default {
           }
         });
     },
-    selectAnswer(answer) {
-      const { question, correct_answer } = this.currentQuestion;
-      const newAnswerObj = {
-        question,
-        correct_answer,
-        user_answer: answer,
-      };
-      addOrReplaceAnswerInArray(this.answers, newAnswerObj);
-      if (this.index === this.questions.length -1){
-        this.finishTrivia();
-      }
-      this.nextQuestion();
-      if (correct_answer === answer) {
+    selectAnswer(answerObj) {
+      addOrReplaceAnswerInArray(this.answers, answerObj);
+      this.navigateQuestions(1);
+      console.log({ answerObj });
+      if (answerObj.correct_answer === answerObj.user_answer) {
         this.totalScore += 10;
       }
+      if (this.index === this.questions.length - 1) {
+        this.finishTrivia();
+      }
     },
-    previousQuestion() {
-      this.index -= 1;
+    navigateQuestions(value) {
+      this.index += value;
       if (this.index < 0) {
         this.index = 0;
       }
-    },
-    nextQuestion() {
-      this.index += 1;
-      if (this.index >= this.questions.length) {
-        this.index = this.questions.length - 1;
+      if (this.index >= this.totalQuestions) {
+        this.index = this.totalQuestions - 1;
       }
     },
     finishTrivia() {
@@ -144,12 +135,6 @@ h3 {
 }
 button {
   margin: 0px 10px;
-}
-#button-container {
-  margin: 0 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 #finish-container {
   margin: 5mm;

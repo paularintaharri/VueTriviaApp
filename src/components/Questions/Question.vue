@@ -2,12 +2,12 @@
   <div>
     <h3>{{ question.question }}</h3>
     <template v-if="questionTypeBoolean">
-      <boolean-answer-options :selectAnswer="selectAnswer" />
+      <boolean-answer-options @selectAnswer="selectAnswer" />
     </template>
     <template v-else>
       <multiple-answer-options
         :answerOptions="answerOptions"
-        :selectAnswer="selectAnswer"
+        @selectAnswer="selectAnswer"
       />
     </template>
   </div>
@@ -23,7 +23,6 @@ export default {
   name: "Question",
   props: {
     question: Object,
-    selectAnswer: Function,
   },
   computed: {
     questionTypeBoolean: function () {
@@ -34,6 +33,17 @@ export default {
       const { incorrect_answers, correct_answer } = this.question;
       return shuffle([...incorrect_answers, correct_answer]);
     },
-  }
+  },
+  methods: {
+    selectAnswer(answer) {
+      const { question, correct_answer } = this.question;
+      const newAnswerObj = {
+        question,
+        correct_answer,
+        user_answer: answer,
+      };
+      this.$emit("selectAnswer", newAnswerObj);
+    },
+  },
 };
 </script>

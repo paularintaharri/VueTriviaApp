@@ -8,8 +8,10 @@
 <script>
 export default {
   name: "BooleanAnswerOptions",
-  props: {
-    selectAnswer: Function,
+  methods: {
+    selectAnswer(answer) {
+      this.$emit("selectAnswer", answer);
+    },
   },
 };
 </script>
