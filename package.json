@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "he": "^1.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.5.1"
   },
@@ -33,7 +34,12 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "eqeqeq": "error",
+      "quotes": "warn",
+      "no-multi-spaces": "warn",
+      "semi": "warn"
+    }
   },
   "browserslist": [
     "> 1%",
