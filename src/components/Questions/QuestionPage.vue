@@ -56,7 +56,6 @@ export default {
       index: 0,
       questions: [],
       answers: [],
-      totalScore: 0,
       failedToLoad: false,
     };
   },
@@ -94,12 +93,6 @@ export default {
     selectAnswer(answerObj) {
       addOrReplaceAnswerInArray(this.answers, answerObj);
       this.navigateQuestions(1);
-      if (answerObj.correct_answer === answerObj.user_answer) {
-        this.totalScore += 10;
-      }
-      if (this.index === this.questions.length - 1) {
-        this.finishTrivia();
-      }
     },
     navigateQuestions(value) {
       this.index += value;
@@ -108,6 +101,7 @@ export default {
       }
       if (this.index >= this.totalQuestions) {
         this.index = this.totalQuestions - 1;
+        this.finishTrivia();
       }
     },
     finishTrivia() {
@@ -115,7 +109,6 @@ export default {
         name: "ResultPage",
         params: {
           answers: this.answers,
-          totalScore: this.totalScore,
         },
       });
     },
