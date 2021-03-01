@@ -1,6 +1,6 @@
 <template>
   <div>
-    Settings
+    <p>Settings</p>
     <div class="settings-container">
       <amount-selection @amount="setAmount" />
       <difficulty-select @difficulty="setDifficulty" />
@@ -62,7 +62,9 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  justify-self: center;
+}
+p {
+  font-weight: bold;
 }
 button {
   background-color: #35495e;

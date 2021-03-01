@@ -125,7 +125,12 @@ h3 {
   margin: 40px 0 0;
 }
 button {
-  margin: 0px 10px;
+  background-color: #35495e;
+  color: #ffffff;
+  margin: 1em;
+  padding: 0.5em;
+  font-size: medium;
+  font-weight: bold;
 }
 #finish-container {
   margin: 5mm;

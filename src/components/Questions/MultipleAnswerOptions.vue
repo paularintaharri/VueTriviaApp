@@ -29,4 +29,10 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
+button {
+  margin: 1em;
+  padding: 0.5em;
+  font-size: medium;
+  font-weight: bold;
+}
 </style>
