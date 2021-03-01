@@ -33,7 +33,12 @@ export default {
 
 <style scoped>
 button {
-  margin: 0px 10px;
+  background-color: #45607c;
+  color: #ffffff;
+  margin: 1em;
+  padding: 0.5em;
+  font-size: medium;
+  font-weight: bold;
 }
 #button-container {
   margin: 0 100px;

@@ -22,6 +22,9 @@ export default {
 }
 
 button {
-  margin: 0px 10px 16px;
+  margin: 1em;
+  padding: 0.5em;
+  font-size: medium;
+  font-weight: bold;
 }
 </style>

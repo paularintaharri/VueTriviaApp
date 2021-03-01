@@ -30,7 +30,6 @@ export default {
     },
     saveSettings(settingsObj) {
       if (settingsObj) {
-        console.log("changed settings");
         this.APIProps = settingsObj;
       }
     },

@@ -27,3 +27,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+select {
+  padding: 1mm;
+  border-radius: 10mm;
+}
+</style>
